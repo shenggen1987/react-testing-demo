@@ -12,11 +12,22 @@ export default class AddTodo extends React.Component {
       this.refs.todoTitle.value = '';
     }
   }
-
+  keyDownTodoTitle(event) {
+    if(event.keyCode == 13){
+      const newTodoName = event.target.value;
+      if (newTodoName) {
+        TodoStore.addNewTodo({
+          name: newTodoName
+        });
+        TodoStore.emitChange();
+        event.target.value = '';
+      }
+    }
+  }
   render() {
     return (
       <div className="add-todo">
-        <input type="text" placeholder="Todo four" ref="todoTitle" />
+        <input type="text" placeholder="Todo four" ref="todoTitle" onKeyDown={this.keyDownTodoTitle} />
         <button className="add-button" onClick={this.addTodo.bind(this)}>
           Add Todo
         </button>
